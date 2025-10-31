@@ -1,0 +1,15 @@
+.git
+.gitignore
+README.md
+.dockerignore
+node_modules
+*.log
+.DS_Store
+.env
+.venv
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.coverage

@@ -1,0 +1,248 @@
+/* Global beautiful background for all pages */
+body, #root {
+  min-height: 100vh;
+  background: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+  background-size: cover;
+  background-blend-mode: overlay;
+}
+
+.home-bg, .auth-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4); /* darker overlay for better text contrast */
+}
+
+.home-card, .auth-container {
+  background: rgba(255,255,255,0.98); /* increased opacity for better readability */
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  padding: 40px 32px;
+  max-width: 420px;
+  text-align: center;
+  backdrop-filter: blur(8px); /* increased blur for better readability */
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.home-title, .auth-container h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50; /* darker color for better contrast */
+  margin-bottom: 12px;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+.home-desc {
+  font-size: 1.1rem;
+  color: #34495e; /* darker text for better readability */
+  margin-bottom: 28px;
+  font-weight: 500;
+}
+
+.home-links {
+  display: flex;
+  background-color: transparent;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.home-btn, .auth-btn {
+  padding: 12px 0;
+  color: #fff;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.home-btn:hover, .auth-btn:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.form-group label {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 600;
+  color: #2c3e50; /* darker label color */
+  margin-bottom: 6px;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+}
+
+.form-group input {
+  font-family: 'Noto Sans JP', sans-serif;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #bdc3c7;
+  background: rgba(255,255,255,0.95);
+  color: #2c3e50; /* darker input text */
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+.auth-message {
+  color: #e74c3c; /* more visible error color */
+  margin-top: 12px;
+  font-weight: 600;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+}
+
+.auth-link {
+  margin-top: 18px;
+}
+
+/* Different backgrounds for each auth page */
+.login-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+  background-size: cover;
+  background-blend-mode: overlay;
+}
+
+.signup-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+  background-size: cover;
+  background-blend-mode: overlay;
+}
+
+.delete-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+  background-size: cover;
+  background-blend-mode: overlay;
+}
+
+.auth-form label {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.auth-form input {
+  padding: 12px;
+  border: 2px solid #bdc3c7;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  background: rgba(255,255,255,0.95);
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.auth-btn {
+  padding: 12px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.auth-btn:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+}
+
+.auth-message {
+  margin-top: 16px;
+  color: #e74c3c;
+  font-weight: 600;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+}
+
+.auth-link {
+  margin-top: 18px;
+}
+
+.auth-link a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+  color: #764ba2;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
