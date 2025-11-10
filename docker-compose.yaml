@@ -2,7 +2,10 @@
 
 services:
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        - REACT_APP_API_URL=http://localhost:4000
     container_name: frontend_c
     ports:
       - '3000:3000'
@@ -15,6 +18,10 @@ services:
     tty: true
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/mydatabase
+      - JWT_SECRET=supersecretjwtkeyfordev
+      - ADMIN_KEY=secret_admin_key_dev
+    depends_on:
+      - mongodb
   mongodb:
     image: mongo
     container_name: mongodb_c

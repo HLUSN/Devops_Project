@@ -1,27 +1,29 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
+    console.log('Password entered:', password); // Print the inserted password
     try {
-  const res = await fetch('http://localhost:4000/login', {
+      const res = await fetch(`http://localhost:4000/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
       const data = await res.json();
-      if (data.success) {
-        setMessage('Login successful!');
-        setUsername('');
-        setPassword('');
-        // You can redirect or set login state here
+      if (data.success && data.token) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        navigate('/crud'); 
       } else {
-        setMessage('Invalid credentials');
+        setMessage(data.message || 'Invalid credentials');
       }
     } catch (err) {
       setMessage('Error logging in');
@@ -31,7 +33,7 @@ function Login() {
   return (
     <div className="login-bg">
       <div className="auth-container">
-        <h2>Admin Login</h2>
+        <h2>Login</h2>
         <form className="auth-form" onSubmit={handleSubmit} autoComplete="off">
           <div className="form-group">
             <label>Username</label>
