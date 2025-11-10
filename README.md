@@ -238,3 +238,4 @@ For production:
 **401/403 errors**: Check JWT token is valid and user has admin role  
 **CORS issues**: Backend has CORS enabled; if issues persist check your network/firewall
 
+# Trigger GitHub Actions - Mon Nov 10 19:35:22 +0530 2025
