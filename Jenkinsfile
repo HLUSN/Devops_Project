@@ -5,6 +5,8 @@ pipeline {
         DOCKER_HUB_REPO_FRONTEND = 'hlusn/devops-frontend'
         DOCKER_HUB_REPO_BACKEND = 'hlusn/devops-backend'
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        DOCKER_HUB_USERNAME = 'hlusn'
+        DOCKER_HUB_PASSWORD = 'dckr_pat_VGJCnerYYK0aLtdLe2YWkc8xjKE'
         GIT_REPO_URL = 'https://github.com/HLUSN/Devops_Project.git'
     }
 
