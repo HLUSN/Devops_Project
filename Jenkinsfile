@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     def imageTag = "${env.BUILD_NUMBER}"
-                    sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
+                    sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
                     sh "docker push ${DOCKER_HUB_REPO_FRONTEND}:${imageTag}"
                     sh "docker push ${DOCKER_HUB_REPO_FRONTEND}:latest"
                 }
