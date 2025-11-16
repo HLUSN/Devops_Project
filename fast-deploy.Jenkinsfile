@@ -35,55 +35,122 @@ pipeline {
         stage('Stop Existing Containers') {
             steps {
                 sh '''
-                docker compose down || true
+                # Stop containers individually
+                docker stop frontend_c backend_c mongodb_c || true
+                docker rm frontend_c backend_c mongodb_c || true
                 echo "✅ Stopped any running containers"
                 '''
             }
         }
 
-        stage('Deploy Application') {
+        stage('Start MongoDB') {
             steps {
                 sh '''
-                docker compose up -d
-                echo "✅ Application deployed"
+                # Start MongoDB
+                docker run -d \
+                  --name mongodb_c \
+                  -p 27017:27017 \
+                  -v mongo-data:/data/db \
+                  mongo
+                echo "✅ MongoDB started"
                 '''
             }
         }
 
-        stage('Wait for Services') {
+        stage('Wait for MongoDB') {
             steps {
-                sh 'sleep 15'
-                echo "⏳ Waiting for database and services..."
-            }
-        }
-
-        stage('Health Check') {
-            steps {
+                sh 'sleep 10'
                 sh '''
-                echo "=== Health Check ==="
-                curl -s http://localhost:4000/health && echo "✅ Backend is healthy!"
-                curl -s http://localhost:3000 > /dev/null && echo "✅ Frontend is running!"
+                # Test MongoDB connection
+                docker exec mongodb_c mongosh --eval "db.adminCommand('ismaster')" && echo "✅ MongoDB is ready!"
                 '''
             }
         }
 
-        stage('Database Check - ALL DATA') {
+        stage('Start Backend') {
             steps {
                 sh '''
-                echo "=== DATABASE - SHOWING ALL DATA ==="
+                # Start Backend
+                docker run -d \
+                  --name backend_c \
+                  -p 4000:4000 \
+                  -e MONGODB_URI=mongodb://mongodb_c:27017/mydatabase \
+                  -e JWT_SECRET=supersecretjwtkeyfordev \
+                  -e ADMIN_KEY=secret_admin_key_dev \
+                  hlusn/devops-backend:latest
+                echo "✅ Backend container started"
+                '''
+            }
+        }
+
+        stage('Wait for Backend') {
+            steps {
+                sh 'sleep 10'
+                sh '''
+                # Check if backend container is running
+                docker ps | grep backend_c && echo "✅ Backend container is running"
                 
+                # Check backend logs
+                echo "=== Backend Logs (last 5 lines) ==="
+                docker logs backend_c --tail 5
+                '''
+            }
+        }
+
+        stage('Start Frontend') {
+            steps {
+                sh '''
+                # Start Frontend
+                docker run -d \
+                  --name frontend_c \
+                  -p 3000:3000 \
+                  hlusn/devops-frontend:latest
+                echo "✅ Frontend container started"
+                '''
+            }
+        }
+
+        stage('Wait for Frontend') {
+            steps {
+                sh 'sleep 10'
+                sh '''
+                # Check if frontend container is running
+                docker ps | grep frontend_c && echo "✅ Frontend container is running"
+                
+                # Check frontend logs
+                echo "=== Frontend Logs (last 5 lines) ==="
+                docker logs frontend_c --tail 5
+                '''
+            }
+        }
+
+        stage('Debug Network') {
+            steps {
+                sh '''
+                echo "=== Network Debugging ==="
+                echo "Containers running:"
+                docker ps -a
+                
+                echo "Ports listening:"
+                netstat -tulpn | grep -E '(3000|4000|27017)' || echo "No ports found"
+                
+                echo "Trying to connect to services:"
+                curl -v http://localhost:4000/health || echo "Backend not accessible"
+                curl -v http://localhost:3000 || echo "Frontend not accessible"
+                '''
+            }
+        }
+
+        stage('Database Check') {
+            steps {
+                sh '''
+                echo "=== DATABASE CHECK ==="
                 docker exec -i mongodb_c mongosh mydatabase --eval "
-                print('📊 USERS COLLECTION (' + db.users.find().count() + ' documents):');
-                db.users.find().forEach(user => {
-                    printjson(user);
-                });
-                
-                print('');
-                print('💡 TIPS COLLECTION (' + db.tips.find().count() + ' documents):');
-                db.tips.find().forEach(tip => {
-                    printjson(tip);
-                });
-                " || echo "❌ Database check failed - container might still be starting"
+                print('📊 Database Status:');
+                print('Collections: ' + db.getCollectionNames().join(', '));
+                print('Users count: ' + db.users.find().count());
+                print('Tips count: ' + db.tips.find().count());
+                " || echo "❌ Database check failed"
                 '''
             }
         }
@@ -93,10 +160,10 @@ pipeline {
         always {
             echo ''
             echo '=== DEPLOYMENT COMPLETE ==='
-            echo '✅ All data displayed from database'
-            echo '📱 Access your application:'
+            echo '📱 Try accessing manually:'
             echo '   Frontend: http://localhost:3000'
             echo '   Backend:  http://localhost:4000'
+            echo '💡 If services are not accessible, check the logs above.'
         }
     }
 }
