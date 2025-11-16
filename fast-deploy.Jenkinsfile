@@ -2,6 +2,18 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/HLUSN/Devops_Project.git'
+            }
+        }
+
+        stage('Fix Docker Permissions') {
+            steps {
+                sh 'sudo chmod 666 /var/run/docker.sock || true'
+            }
+        }
+
         stage('Start Docker Service') {
             steps {
                 sh 'sudo service docker start || true'
@@ -23,7 +35,6 @@ pipeline {
         stage('Stop Existing Containers') {
             steps {
                 sh '''
-                cd "/mnt/d/SEM 5/DevOps/docker compose work       2/myApp"
                 docker compose down || true
                 echo "✅ Stopped any running containers"
                 '''
@@ -33,7 +44,6 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 sh '''
-                cd "/mnt/d/SEM 5/DevOps/docker compose work       2/myApp"
                 docker compose up -d
                 echo "✅ Application deployed"
                 '''
