@@ -4,9 +4,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO_FRONTEND = 'hlusn/devops-frontend'
         DOCKER_HUB_REPO_BACKEND = 'hlusn/devops-backend'
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
-        DOCKER_HUB_USERNAME = 'hlusn'
-        DOCKER_HUB_PASSWORD = 'dckr_pat_VGJCnerYYK0aLtdLe2YWkc8xjKE'
+        DOCKER_HUB_CREDENTIALS_ID = 'docker-hub-credentials'
         GIT_REPO_URL = 'https://github.com/HLUSN/Devops_Project.git'
     }
 
@@ -44,10 +42,12 @@ pipeline {
         stage('Push Frontend Image') {
             steps {
                 script {
-                    def imageTag = "${env.BUILD_NUMBER}"
-                    sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
-                    sh "docker push ${DOCKER_HUB_REPO_FRONTEND}:${imageTag}"
-                    sh "docker push ${DOCKER_HUB_REPO_FRONTEND}:latest"
+                    withCredentials([usernamePassword(credentialsId: env.DOCKER_HUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+                        def imageTag = "${env.BUILD_NUMBER}"
+                        sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
+                        sh "docker push ${DOCKER_HUB_REPO_FRONTEND}:${imageTag}"
+                        sh "docker push ${DOCKER_HUB_REPO_FRONTEND}:latest"
+                    }
                 }
             }
         }
@@ -55,9 +55,22 @@ pipeline {
         stage('Push Backend Image') {
             steps {
                 script {
-                    def imageTag = "${env.BUILD_NUMBER}"
-                    sh "docker push ${DOCKER_HUB_REPO_BACKEND}:${imageTag}"
-                    sh "docker push ${DOCKER_HUB_REPO_BACKEND}:latest"
+                    withCredentials([usernamePassword(credentialsId: env.DOCKER_HUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+                        def imageTag = "${env.BUILD_NUMBER}"
+                        sh "docker push ${DOCKER_HUB_REPO_BACKEND}:${imageTag}"
+                        sh "docker push ${DOCKER_HUB_REPO_BACKEND}:latest"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    // Stop existing services, pull new images, and start services
+                    sh "docker-compose -f docker-compose.prod.yml down"
+                    sh "docker-compose -f docker-compose.prod.yml pull"
+                    sh "docker-compose -f docker-compose.prod.yml up -d"
                 }
             }
         }
