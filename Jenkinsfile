@@ -9,12 +9,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: "${GIT_REPO_URL}"
-            }
-        }
-
         stage('Build Frontend Image') {
             steps {
                 dir('frontend') {
