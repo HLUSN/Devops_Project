@@ -9,6 +9,14 @@ pipeline {
     }
 
     stages {
+        // ADD THIS STAGE - Git Checkout
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', 
+                url: 'https://github.com/HLUSN/Devops_Project.git'
+            }
+        }
+
         stage('Build Frontend Image') {
             steps {
                 dir('frontend') {
