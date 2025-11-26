@@ -1,6 +1,4 @@
 # Production Docker Compose Configuration
-# Use this when deploying with images from Docker Hub
-
 services:
   frontend:
     image: hlusn/devops-frontend:latest
@@ -8,7 +6,7 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - REACT_APP_API_URL=http://your-server-ip:4000
+      - REACT_APP_API_URL=http://localhost:4000
     depends_on:
       - backend
 
@@ -19,8 +17,8 @@ services:
       - '4000:4000'
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/mydatabase
-      - JWT_SECRET=your-production-jwt-secret
-      - ADMIN_KEY=your-production-admin-key
+      - JWT_SECRET=supersecretjwtkeyfordev
+      - ADMIN_KEY=secret_admin_key_dev
     depends_on:
       - mongodb
 
@@ -28,13 +26,8 @@ services:
     image: mongo:latest
     container_name: mongodb_prod
     restart: unless-stopped
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=your-secure-password
     volumes:
       - mongo-prod-data:/data/db
-    ports:
-      - '27017:27017'
 
 volumes:
   mongo-prod-data:
