@@ -2,7 +2,7 @@
 services:
   frontend:
     image: hlusn/devops-frontend:latest
-    container_name: frontend_prod
+    container_name: frontend_c           # Same as development
     ports:
       - '3000:3000'
     environment:
@@ -12,7 +12,7 @@ services:
 
   backend:
     image: hlusn/devops-backend:latest
-    container_name: backend_prod
+    container_name: backend_c            # Same as development
     ports:
       - '4000:4000'
     environment:
@@ -24,10 +24,10 @@ services:
 
   mongodb:
     image: mongo:latest
-    container_name: mongodb_prod
+    container_name: mongodb_c            # Same as development
     restart: unless-stopped
     volumes:
-      - mongo-data:/data/db  # CHANGED: Use same volume as development
+      - mongo-data:/data/db
 
 volumes:
-  mongo-data:  # CHANGED: Same volume name as development
+  mongo-data:
