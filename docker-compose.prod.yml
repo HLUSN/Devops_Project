@@ -27,7 +27,7 @@ services:
     container_name: mongodb_prod
     restart: unless-stopped
     volumes:
-      - mongo-prod-data:/data/db
+      - mongo-data:/data/db  # CHANGED: Use same volume as development
 
 volumes:
-  mongo-prod-data:
+  mongo-data:  # CHANGED: Same volume name as development
