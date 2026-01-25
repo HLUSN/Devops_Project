@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -12,7 +13,7 @@ function Login() {
     setMessage('');
     console.log('Password entered:', password); // Print the inserted password
     try {
-      const res = await fetch(`http://localhost:4000/login`, {
+      const res = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })

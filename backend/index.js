@@ -17,7 +17,8 @@ const corsOptions = {
     const allowedOrigins = [
       'http://localhost:3000',  // Development
       'http://frontend:3000',   // Docker
-      'http://127.0.0.1:3000'  // Alternative localhost
+      'http://127.0.0.1:3000',  // Alternative localhost
+      'http://13.232.217.106:3000'  // AWS deployment
     ];
     
     if (allowedOrigins.indexOf(origin) !== -1) {

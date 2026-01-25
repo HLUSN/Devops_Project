@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function DeleteAdmin() {
+  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
 
@@ -9,7 +10,7 @@ function DeleteAdmin() {
     e.preventDefault();
     setMessage('');
     try {
-  const res = await fetch('http://localhost:4000/delete-admin', {
+  const res = await fetch(`${API_URL}/delete-admin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username })

@@ -1,0 +1,24 @@
+# .gitignore - AWS Deployment
+
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.terraform/
+.terraform.lock.hcl
+crash.log
+
+# SSH Keys
+*.pem
+*.pub
+*-key
+*-key.pub
+
+# Environment
+.env
+.env.local
+
+# AWS credentials
+credentials
+aws-credentials.json

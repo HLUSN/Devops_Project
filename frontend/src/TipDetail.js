@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 function TipDetail() {
+  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
   const { id } = useParams();
   const [tip, setTip] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -10,7 +11,7 @@ function TipDetail() {
   useEffect(() => {
     const fetchTip = async () => {
       try {
-        const res = await fetch(`http://localhost:4000/api/tips/${id}`);
+        const res = await fetch(`${API_URL}/api/tips/${id}`);
         const data = await res.json();
         if (data.success) setTip(data.tip);
         else setError(data.message || 'Tip not found');

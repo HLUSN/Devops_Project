@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 function AdminPanel() {
+  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
   const [tips, setTips] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -11,7 +12,7 @@ function AdminPanel() {
   const fetchTips = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/tips');
+      const res = await fetch(`${API_URL}/api/tips`);
       const data = await res.json();
       if (data.success) setTips(data.tips || []);
     } catch (err) {
@@ -33,7 +34,7 @@ function AdminPanel() {
     e.preventDefault();
     setMessage('');
     try {
-      const res = await fetch('/api/tips', {
+      const res = await fetch(`${API_URL}/api/tips`, {
         method: 'POST',
         headers: headersWithKey(),
         body: JSON.stringify({ title, content })
@@ -55,7 +56,7 @@ function AdminPanel() {
     if (!window.confirm('Delete this tip?')) return;
     setMessage('');
     try {
-      const res = await fetch(`/api/tips/${id}`, {
+      const res = await fetch(`${API_URL}/api/tips/${id}`, {
         method: 'DELETE',
         headers: headersWithKey()
       });
@@ -75,7 +76,7 @@ function AdminPanel() {
     const newContent = prompt('New content');
     if (newContent === null) return;
     try {
-      const res = await fetch(`/api/tips/${id}`, {
+      const res = await fetch(`${API_URL}/api/tips/${id}`, {
         method: 'PUT',
         headers: headersWithKey(),
         body: JSON.stringify({ title: newTitle, content: newContent })

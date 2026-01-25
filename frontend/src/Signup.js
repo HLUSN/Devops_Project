@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 function Signup() {
+  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -9,7 +10,7 @@ function Signup() {
     e.preventDefault();
     setMessage('');
     try {
-      const res = await fetch(`http://localhost:4000/register`, {
+      const res = await fetch(`${API_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
