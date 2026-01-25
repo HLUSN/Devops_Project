@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Tips() {
+  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
   const [tips, setTips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -9,7 +10,7 @@ function Tips() {
   useEffect(() => {
     const fetchTips = async () => {
       try {
-        const res = await fetch('http://localhost:4000/api/tips');
+        const res = await fetch(`${API_URL}/api/tips`);
         const data = await res.json();
         if (data.success) setTips(data.tips || []);
         else setError('Failed to load tips');

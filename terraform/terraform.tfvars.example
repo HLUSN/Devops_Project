@@ -1,0 +1,8 @@
+# AWS Configuration
+aws_region   = "us-east-1"
+project_name = "myapp"
+
+# SSH Public Key (paste your public key here)
+# Generate with: ssh-keygen -t rsa -b 4096 -f myapp-key
+# Then copy the contents of myapp-key.pub
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD... your-email@example.com"

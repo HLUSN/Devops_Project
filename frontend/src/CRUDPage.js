@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function CRUDPage() {
+  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
   const [tips, setTips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
@@ -22,7 +23,7 @@ function CRUDPage() {
   const fetchTips = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:4000/api/tips`);
+      const res = await fetch(`${API_URL}/api/tips`);
       const data = await res.json();
       if (data.success) setTips(data.tips || []);
       else setMessage('Failed to load tips');
@@ -57,7 +58,7 @@ function CRUDPage() {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:4000/api/tips`, {
+      const res = await fetch(`${API_URL}/api/tips`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify({ title: title.trim(), content: content.trim() })
@@ -77,7 +78,7 @@ function CRUDPage() {
     if (!window.confirm('Delete this tip?')) return;
     setMessage('');
     try {
-      const res = await fetch(`http://localhost:4000/api/tips/${id}`, {
+      const res = await fetch(`${API_URL}/api/tips/${id}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });
@@ -101,7 +102,7 @@ function CRUDPage() {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:4000/api/tips/${editingId}`, {
+      const res = await fetch(`${API_URL}/api/tips/${editingId}`, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify({ title: editTitle.trim(), content: editContent.trim() })
