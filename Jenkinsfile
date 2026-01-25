@@ -12,7 +12,7 @@ pipeline {
         // ADD THIS STAGE - Git Checkout
         stage('Checkout Code') {
             steps {
-                git branch: 'main', 
+                git branch: 'Automation', 
                 url: 'https://github.com/HLUSN/Devops_Project.git'
             }
         }
