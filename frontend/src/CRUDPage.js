@@ -133,7 +133,7 @@ function CRUDPage() {
   return (
     <div className="crud-page">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h2>CRUD — Manage Safety Tips</h2>
+        <h2>CRUD — Manage Safety Tips from Upeka</h2>
         <button className="logout-btn" onClick={handleLogout}>
           <i className="bi bi-box-arrow-right"></i> Logout
         </button>
