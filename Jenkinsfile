@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+    triggers {
+        // Poll GitHub every minute for changes (fallback if webhook fails)
+        pollSCM('* * * * *')
+        // GitHub webhook trigger - requires webhook configuration in GitHub repo
+        githubPush()
+    }
+
     environment {
         DOCKER_HUB_REPO_FRONTEND = 'hlusn/devops-frontend'
         DOCKER_HUB_REPO_BACKEND = 'hlusn/devops-backend'
