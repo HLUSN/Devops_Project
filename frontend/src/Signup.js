@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function Signup() {
-  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
+  const API_URL = process.env.REACT_APP_API_URL || 'http://52.66.214.98:4000';
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');

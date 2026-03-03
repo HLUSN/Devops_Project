@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 function TipDetail() {
-  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
+  const API_URL = process.env.REACT_APP_API_URL || 'http://52.66.214.98:4000';
   const { id } = useParams();
   const [tip, setTip] = useState(null);
   const [loading, setLoading] = useState(true);

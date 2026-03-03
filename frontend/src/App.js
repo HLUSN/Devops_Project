@@ -12,7 +12,7 @@ import React, { useEffect } from "react";
 
 function App() {
   const fetchData = async () => {
-  const res = await fetch(`${process.env.REACT_APP_API_URL || "http://13.232.217.106:4000"}/`);
+  const res = await fetch(`${process.env.REACT_APP_API_URL || "http://52.66.214.98:4000"}/`);
     console.log(res);
   };
 

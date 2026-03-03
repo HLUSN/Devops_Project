@@ -1,0 +1,89 @@
+%%{init: {'theme':'base', 'themeVariables': {'primaryColor':'#fff','primaryTextColor':'#000','primaryBorderColor':'#333','lineColor':'#333','secondaryColor':'#fff','tertiaryColor':'#fff','background':'#ffffff','mainBkg':'#ffffff','secondBkg':'#ffffff','tertiaryBkg':'#ffffff'}}}%%
+flowchart TB
+    subgraph Developer["👨‍💻 Development"]
+        DEV[Developer]
+        CODE[Source Code<br/>Frontend + Backend]
+    end
+    
+    subgraph GitHub["📦 GitHub"]
+        REPO[Repository<br/>HLUSN/Devops_Project]
+        WEBHOOK[Webhook]
+    end
+    
+    subgraph Local["💻 Local Machine"]
+        NGROK[ngrok Tunnel<br/>:8080]
+        JENKINS[Jenkins CI/CD<br/>Pipeline]
+    end
+    
+    subgraph Pipeline["🔄 Jenkins Pipeline Stages"]
+        CHECKOUT[1. Checkout Code]
+        BUILD_FE[2. Build Frontend<br/>Docker Image]
+        BUILD_BE[3. Build Backend<br/>Docker Image]
+        PUSH[4. Push to Registry]
+        DEPLOY[5. Deploy to EC2]
+    end
+    
+    subgraph Registry["🐳 Docker Hub"]
+        IMG_FE[devops-frontend<br/>:latest]
+        IMG_BE[devops-backend<br/>:latest]
+    end
+    
+    subgraph AWS["☁️ AWS Cloud"]
+        TERRAFORM[Terraform IaC]
+        
+        subgraph EC2["EC2 Instance - Ubuntu t3.micro"]
+            COMPOSE[Docker Compose]
+            
+            subgraph Containers["Running Containers"]
+                FRONTEND[Frontend<br/>React<br/>:3000]
+                BACKEND[Backend<br/>Node.js + Express<br/>:4000]
+                MONGODB[MongoDB<br/>:27017]
+            end
+        end
+        
+        VPC[VPC + Security Groups]
+    end
+    
+    subgraph Users["🌐 End Users"]
+        USER[Public Access]
+    end
+    
+    DEV -->|git push| CODE
+    CODE -->|commits| REPO
+    REPO -->|triggers| WEBHOOK
+    WEBHOOK -->|notifies| NGROK
+    NGROK -->|forwards to| JENKINS
+    
+    JENKINS -->|executes| CHECKOUT
+    CHECKOUT --> BUILD_FE
+    CHECKOUT --> BUILD_BE
+    BUILD_FE --> PUSH
+    BUILD_BE --> PUSH
+    PUSH -->|docker push| IMG_FE
+    PUSH -->|docker push| IMG_BE
+    PUSH --> DEPLOY
+    
+    DEPLOY -->|SSH| COMPOSE
+    COMPOSE -->|pulls| IMG_FE
+    COMPOSE -->|pulls| IMG_BE
+    COMPOSE -->|runs| FRONTEND
+    COMPOSE -->|runs| BACKEND
+    COMPOSE -->|runs| MONGODB
+    
+    TERRAFORM -.->|provisions| EC2
+    TERRAFORM -.->|creates| VPC
+    
+    USER -->|http://IP:3000| FRONTEND
+    FRONTEND -->|API calls| BACKEND
+    BACKEND -->|queries| MONGODB
+    
+    style DEV fill:#ff6b6b,stroke:#333,stroke-width:2px,color:#fff
+    style JENKINS fill:#d73a49,stroke:#333,stroke-width:3px,color:#fff
+    style IMG_FE fill:#0db7ed,stroke:#333,stroke-width:2px,color:#fff
+    style IMG_BE fill:#0db7ed,stroke:#333,stroke-width:2px,color:#fff
+    style FRONTEND fill:#61dafb,stroke:#333,stroke-width:2px,color:#000
+    style BACKEND fill:#68a063,stroke:#333,stroke-width:2px,color:#fff
+    style MONGODB fill:#13aa52,stroke:#333,stroke-width:2px,color:#fff
+    style EC2 fill:#ff9900,stroke:#333,stroke-width:2px
+    style TERRAFORM fill:#7b42bc,stroke:#333,stroke-width:2px,color:#fff
+    style USER fill:#4ecdc4,stroke:#333,stroke-width:2px,color:#fff

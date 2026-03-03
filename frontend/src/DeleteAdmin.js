@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function DeleteAdmin() {
-  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
+  const API_URL = process.env.REACT_APP_API_URL || 'http://52.66.214.98:4000';
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
 

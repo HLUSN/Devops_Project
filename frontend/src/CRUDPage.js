@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function CRUDPage() {
-  const API_URL = process.env.REACT_APP_API_URL || 'http://13.232.217.106:4000';
+  const API_URL = process.env.REACT_APP_API_URL || 'http://52.66.214.98:4000';
   const [tips, setTips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');

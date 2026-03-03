@@ -5,7 +5,7 @@ services:
     build:
       context: ./frontend
       args:
-        - REACT_APP_API_URL=http://13.232.217.106:4000
+        - REACT_APP_API_URL=http://52.66.214.98:4000
     container_name: frontend_c
     ports:
       - '3000:3000'
