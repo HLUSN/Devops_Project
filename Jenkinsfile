@@ -29,8 +29,9 @@ pipeline {
                 dir('frontend') {
                     script {
                         def imageTag = "${env.BUILD_NUMBER}"
-                        sh "docker build -t ${DOCKER_HUB_REPO_FRONTEND}:${imageTag} ."
-                        sh "docker build -t ${DOCKER_HUB_REPO_FRONTEND}:latest ."
+                        def ec2Host = '52.66.214.98'
+                        sh "docker build --build-arg REACT_APP_API_URL=http://${ec2Host}:4000 -t ${DOCKER_HUB_REPO_FRONTEND}:${imageTag} ."
+                        sh "docker build --build-arg REACT_APP_API_URL=http://${ec2Host}:4000 -t ${DOCKER_HUB_REPO_FRONTEND}:latest ."
                     }
                 }
             }

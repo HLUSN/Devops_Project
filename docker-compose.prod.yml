@@ -2,11 +2,9 @@
 services:
   frontend:
     image: hlusn/devops-frontend:latest
-    container_name: frontend_c           # Same as development
+    container_name: frontend_c
     ports:
       - '3000:3000'
-    environment:
-      - REACT_APP_API_URL=http://52.66.214.98:4000
     depends_on:
       - backend
 
