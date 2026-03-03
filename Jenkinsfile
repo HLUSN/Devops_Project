@@ -73,17 +73,36 @@ pipeline {
             }
         }
 
-        stage('Deploy Locally') {
+        stage('Deploy to EC2') {
             steps {
                 script {
-                    echo 'Deploying application locally using docker-compose...'
-                    // Stop and remove existing containers
-                    sh 'docker-compose -f docker-compose.prod.yml down || true'
-                    // Pull latest images from Docker Hub
-                    sh 'docker-compose -f docker-compose.prod.yml pull'
-                    // Start containers in detached mode
-                    sh 'docker-compose -f docker-compose.prod.yml up -d'
-                    echo 'Local deployment completed successfully!'
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'EC2_SSH_KEY')]) {
+                        def ec2User = 'ubuntu'
+                        def ec2Host = '13.232.217.106'
+                        
+                        echo "Deploying to EC2: ${ec2Host}"
+                        
+                        def remoteCmds = """
+                            cd /home/${ec2User}/app || exit 1
+                            
+                            # Force stop and remove all containers
+                            docker-compose -f docker-compose.prod.yml down -v || true
+                            docker rm -f mongodb_c backend_c frontend_c || true
+                            
+                            # Pull latest images
+                            docker-compose -f docker-compose.prod.yml pull
+                            
+                            # Start fresh containers
+                            docker-compose -f docker-compose.prod.yml up -d
+                            
+                            # Show running containers
+                            docker ps
+                            
+                            echo '✅ EC2 deployment completed!'
+                        """
+                        
+                        sh "ssh -o StrictHostKeyChecking=no -i \$EC2_SSH_KEY ${ec2User}@${ec2Host} '${remoteCmds}'"
+                    }
                 }
             }
         }
