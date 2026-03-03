@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function DeleteAdmin() {
+  const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL || 'http://52.66.214.98:4000';
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please login to access Delete Admin page');
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleDelete = async (e) => {
     e.preventDefault();

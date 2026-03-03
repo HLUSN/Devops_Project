@@ -18,7 +18,16 @@ function CRUDPage() {
 
   const navigate = useNavigate();
 
-  useEffect(() => { fetchTips(); }, []);
+  // Check authentication on mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please login to access CRUD page');
+      navigate('/login');
+      return;
+    }
+    fetchTips();
+  }, [navigate]);
 
   const fetchTips = async () => {
     setLoading(true);

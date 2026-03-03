@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function AdminPanel() {
+  const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL || 'http://52.66.214.98:4000';
   const [tips, setTips] = useState([]);
   const [title, setTitle] = useState('');
@@ -22,7 +24,15 @@ function AdminPanel() {
     }
   };
 
-  useEffect(() => { fetchTips(); }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please login to access Admin Panel');
+      navigate('/login');
+      return;
+    }
+    fetchTips();
+  }, [navigate]);
 
   const headersWithKey = () => ({
     'Content-Type': 'application/json',
