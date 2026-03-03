@@ -82,6 +82,9 @@ pipeline {
                         
                         echo "Deploying to EC2: ${ec2Host}"
                         
+                        // Copy docker-compose.prod.yml to EC2
+                        sh "scp -o StrictHostKeyChecking=no -i \$EC2_SSH_KEY docker-compose.prod.yml ${ec2User}@${ec2Host}:/home/${ec2User}/app/"
+                        
                         def remoteCmds = """
                             cd /home/${ec2User}/app || exit 1
                             
