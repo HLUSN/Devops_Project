@@ -78,7 +78,7 @@ pipeline {
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'EC2_SSH_KEY')]) {
                         def ec2User = 'ubuntu'
-                        def ec2Host = '13.232.217.106'
+                        def ec2Host = '52.66.214.98'
                         
                         echo "Deploying to EC2: ${ec2Host}"
                         
