@@ -73,20 +73,17 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy Locally') {
             steps {
                 script {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'EC2_SSH_KEY')]) {
-                        def ec2User = 'ubuntu' // Change to 'ec2-user' if using Amazon Linux
-                        def ec2Host = '13.232.217.106'
-                        def remoteCmds = """
-                            cd /home/${ec2User}/app || exit 1
-                            docker-compose -f docker-compose.prod.yml down
-                            docker-compose -f docker-compose.prod.yml pull
-                            docker-compose -f docker-compose.prod.yml up -d
-                        """
-                        sh "ssh -o StrictHostKeyChecking=no -i $EC2_SSH_KEY ${ec2User}@${ec2Host} '${remoteCmds}'"
-                    }
+                    echo 'Deploying application locally using docker-compose...'
+                    // Stop and remove existing containers
+                    sh 'docker-compose -f docker-compose.prod.yml down || true'
+                    // Pull latest images from Docker Hub
+                    sh 'docker-compose -f docker-compose.prod.yml pull'
+                    // Start containers in detached mode
+                    sh 'docker-compose -f docker-compose.prod.yml up -d'
+                    echo 'Local deployment completed successfully!'
                 }
             }
         }
